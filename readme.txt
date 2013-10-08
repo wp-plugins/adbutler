@@ -31,19 +31,21 @@ NOTE: In both of these instance the only information sent to the server is the A
 == Installation ==
 
 **Repository**
-1. In your Admin, go to menu Plugins > Add
-2. Search for adbutler
-3. Click to install
-4. Activate the plugin
-5. Click on settings to configure
+
+1. In your Admin, go to menu Plugins > Add.
+2. Search for AdButler.
+3. Click to install.
+4. Activate the plugin.
+5. Click on settings to configure.
 
 **Download**
-1. Download the plugin (.zip file) on the right column of this page
-2. In your Admin, go to menu Plugins > Add
-3. Select the tab "Upload"
-4. Upload the .zip file you just downloaded
-5. Activate the plugin
-1. Click on the settings to configure
+
+1. Download the plugin (.zip file) on the right column of this page.
+2. In your Admin, go to menu Plugins > Add.
+3. Select the tab "Upload".
+4. Upload the .zip file you just downloaded.
+5. Activate the plugin.
+1. Click on the settings to configure.
 
 == Frequently asked questions ==
 
