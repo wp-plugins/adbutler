@@ -173,7 +173,7 @@ class adbutler_admin_about extends adbutler_admin
 					style="padding:15px 0 0 90px; background: transparent url(<?php echo ADBUTLER_URLPATH . "images/arrow-1.png"?>) 10% top no-repeat;">
 					<div class="button-gradient button-gradient-green with-border with-dark-shadow signup-button"
 					     style="width: 190px; margin-top: 15px; -webkit-user-select: none;" unselectable="on">
-						<div onclick="window.open('http://www.adbutler.com','_blank');" class="inner">TRY IT NOW</div>
+						<div onclick="window.open('http://www.adbutler.com?ref=wpabpl1_0','_blank');" class="inner">TRY IT NOW</div>
 					</div>
 				</div>
 			</div>
