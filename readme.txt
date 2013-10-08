@@ -45,7 +45,7 @@ NOTE: In both of these instance the only information sent to the server is the A
 3. Select the tab "Upload".
 4. Upload the .zip file you just downloaded.
 5. Activate the plugin.
-1. Click on the settings to configure.
+6. Click on the settings to configure.
 
 == Frequently asked questions ==
 
@@ -53,10 +53,11 @@ NOTE: In both of these instance the only information sent to the server is the A
 
 Your Wordpress plugin key is in the settings panel of your AdButler account.
 
-=
 
 == Screenshots ==
 
+settings-screenshot1.png
+widget-screenshot1.png
 
 
 == Changelog ==
@@ -67,5 +68,4 @@ This is the 1.0 beta version.
 
 This is an initial release.
 
-== Arbitrary section 1 ==
 
