@@ -1,14 +1,14 @@
 === AdButler ===
 Contributors: sparklit
 Donate link: 
-Tags: Adserving, AdButler, advertising, 
+Tags: Ad serving, AdButler, advertising,sparklit 
 Requires at least: 3.3
 Tested up to: 3.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-*AdButler Wordpress Plugin* - Simplify deployment of your ad zones with this highly efficient widget based ad deployment plugin
+AdButler Wordpress Plugin - Simplify deployment of your ad zones with this highly efficient widget based ad deployment plugin
 
 == Description ==
 
@@ -22,11 +22,12 @@ Currently this plugin only allows the configuration of widgets within Wordpress.
 
 A short code implementation is currently under development.
 
-*Special Considerations*
+**Special Considerations**
 The Adbutler Plugin communicates with the Adbutler servers under two circumstances.
 First when the API key is input and configured a server to server call is made validating the key and storing basic adserving information for use in generating the tags. 
 The second time is during the creation and use of any widgets. At this point the widget makes a AJAX/jsonp call to the AdButler server requesting the current publishers and zones associated with the current account. 
-NOTE: In both of these instance the only information sent to the server is the AdButler API key and any information returned in the first request. Additionally no confidential or personal AdButler account information is exchanged.
+
+**NOTE:** In both of these instance the only information sent to the server is the AdButler API key and any information returned in the first request. Additionally no confidential or personal AdButler account information is exchanged.
 
 == Installation ==
 
@@ -49,17 +50,17 @@ NOTE: In both of these instance the only information sent to the server is the A
 
 == Frequently asked questions ==
 
-**Where do I get my plugin key?**
+= Where do I get my plugin key? =
 Your Wordpress plugin key is in the settings panel of your AdButler account.
 
-**Do I require and AdButler account**
+= Do I require an AdButler account =
 Yes
 
 
 == Screenshots ==
 
-1. settings-screenshot1.png
-1. widget-screenshot1.png
+1. screenshot-1.png
+1. screenshot-2.png
 
 
 == Changelog ==
