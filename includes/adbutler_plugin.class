@@ -1,0 +1,532 @@
+<?php
+
+if (!defined('ABSPATH')) exit;
+/**
+ * Class adbutler_plugin
+ * Core object used for static functions and plugin initialization
+ */
+class adbutler_plugin
+{
+	/**
+	 * @var string plugin name used in options and widget creation
+	 */
+	protected $slug = 'adbutler_plugin';
+	/**
+	 * @var current singleton reference to this class
+	 */
+	protected static $instance = null;
+
+	/**
+	 * Class initialization
+	 */
+	public function __construct()
+	{
+
+	}
+
+	/**
+	 * Initialization function used to register hooks and other setup actions
+	 * @param null $args array of possible future arguments for class initialization
+	 */
+	public function init($args = null)
+	{
+		add_action('admin_menu', array($this, 'create_admin_menu'));
+		add_action('plugin_action_links', array($this, 'create_action_links'), 10, 2);
+		add_action('widgets_init', array($this, 'register_widget'));
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+		add_action('wp_dashboard_setup', array($this, 'dashboard_widget_register'));
+	}
+
+	/**
+	 * Loads the javascript and style sheets to the relevant admin pages
+	 * @param $hook current page
+	 */
+	public function enqueue_admin_scripts($hook)
+	{
+		$min = (WP_DEBUG) ? ".min" : "";
+
+		if (!(('widgets.php' == $hook) || ('index.php' == $hook) || preg_match('/adbutler/', $hook)))
+			return;
+		wp_enqueue_script('adbutler_script', ADBUTLER_URLPATH . "js/adbutler.js", array('jquery-ui-button', 'jquery', 'jquery-ui-spinner'), '1.01', true);
+		$params = array(
+			'widgetID' => 'adbutler',
+			'api_url' => ADBUTLER_ADSERVE_URL,
+			'adbutler_key' => get_option('adbutler_key'),
+		);
+		wp_localize_script('adbutler_script', 'adbutlerParams', $params);
+		wp_enqueue_style('adbutler_css', ADBUTLER_URLPATH . 'css/adbutler.css');
+	}
+
+	/**
+	 * Creates or retrieves the current instance of the AdButler plugin
+	 * @return adbutler_plugin|current|null
+	 */
+	public static function get_instance()
+	{
+		// Singleton constructor 
+		if (self::$instance == null) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Plugin activation
+	 */
+	public static function activate()
+	{
+		if (!current_user_can('activate_plugins'))
+			return;
+		error_log("Activated");
+	}
+
+	/**
+	 * Plugin Deactivation
+	 */
+	public static function deactivate()
+	{
+		if (!current_user_can('activate_plugins'))
+			return;
+		delete_option('widget_adbutler');
+		error_log("Deactivated");
+	}
+
+	/**
+	 * Plugin Uninstall
+	 */
+	public function uninstall()
+	{
+		if (!current_user_can('activate_plugins'))
+			return;
+		delete_option('widget_adbutler');
+		adbutler_plugin::clear_api_key();
+		error_log("uninstalled");
+	}
+
+	/**
+	 * Creation of the administrative menu for Adbutler.
+	 */
+	public function create_admin_menu()
+	{
+		add_menu_page('AdButler', 'AdButler', 'manage_options', $this->slug, array($this, 'admin_menu_page_settings'), plugins_url('../images/adbutler_icon_20.png', __FILE__));
+		add_submenu_page($this->slug, 'AdButler Settings', 'Settings', 'manage_options', $this->slug, array($this, 'admin_menu_page_settings'));
+		add_submenu_page($this->slug, 'About AdButler', 'About', 'manage_options', $this->slug . '_about', array($this, 'admin_menu_page_about'));
+		//add_options_page('AdButler', 'AdButler', 'manage_options', $this->slug, array($this, 'admin_menu_page'));
+	}
+
+	/**
+	 * This function creates the settings menu link on the plugin page and shifts in on to the stack of links
+	 * @param $links current links
+	 * @param $file Adbutler Plugin file
+	 * @return mixed
+	 */
+	public function create_action_links($links, $file)
+	{
+		static $this_plugin;
+		if (!$this_plugin) {
+			$this_plugin = ADBUTLER_PLUGINBASE;
+		}
+		if ($file == $this_plugin) {
+			$settings_link = '<a href="' . site_url() . '/wp-admin/admin.php?page=adbutler_plugin">Settings</a>';
+			array_push($links, $settings_link);
+		}
+		return $links;
+	}
+
+	/**
+	 * hook used to register our widget
+	 */
+	public function register_widget()
+	{
+		include_once(plugin_dir_path(__FILE__) . 'adbutler_widget.class');
+		register_widget('adbutler_widget');
+	}
+
+	/**
+	 * Registar out dashboard widget
+	 */
+	public function dashboard_widget_register()
+	{
+		wp_add_dashboard_widget('adbutler_dashboard_summary', 'AdButler Summary', array($this, 'dashboard_summary'), array($this, 'dashboard_config'));
+	}
+
+	/**
+	 * Administrative page - About
+	 */
+	public function admin_menu_page_about()
+	{
+		if (!current_user_can('manage_options'))
+			wp_die('insufficient privileges!');
+		include_once(plugin_dir_path(__FILE__) . 'adbutler_admin_about.class');
+		$main_admin_page = new adbutler_admin_about();
+		$main_admin_page->build_page();
+		$main_admin_page->render();
+	}
+
+	/**
+	 * Administrative page - Settings
+	 */
+	public function admin_menu_page_settings()
+	{
+		if (!current_user_can('manage_options'))
+			wp_die('insufficient privileges!');
+
+		include_once(plugin_dir_path(__FILE__) . 'adbutler_admin_settings.class');
+		$main_admin_page = new adbutler_admin_settings();
+		$main_admin_page->build_page();
+		$main_admin_page->render();
+	}
+
+	/**
+	 * Makes a HTTP request to the Adbutler server to see if the API key is correct
+	 * @param $key submitted Adbutler API Key
+	 * @return bool success or failure on key validation
+	 */
+	public static function validate_adbutler_key($key)
+	{		
+		if (!class_exists('WP_Http'))
+			include_once(ABSPATH . WPINC . '/class-http.php');
+		$request = new WP_Http;
+		$result = $request->request(ADBUTLER_ADSERVE_URL . '?action=host&form=json&key=' . $key);
+
+		$account = json_decode($result['body'], true);
+
+		if (!isset($account['success']))
+			return false;
+		$account_data = $account['success'];
+		if (is_null($account_data)) {
+			return false;
+		} elseif (isset($account_data['error'])) {
+			return false;
+		} elseif (array_key_exists('adbutler_id', $account_data)) {
+			update_option('adbutler_id', $account_data['adbutler_id']);
+			update_option('adbutler_host_name', $account_data['adbutler_host_name']);
+			update_option('adbutler_ssl_host_name', $account_data['adbutler_ssl_host_name']);
+			return true;
+		} else return false;
+	}
+
+	/**
+	 * removes all key and server details from the database.
+	 */
+	public static function clear_api_key()
+	{
+		delete_option('adbutler_key');
+		delete_option('adbutler_id');
+		delete_option('adbutler_host_name');
+		delete_option('adbutler_ssl_host_name');
+	}
+
+	/**
+	 * Configuration hook for dashboard widget
+	 */
+	public function dashboard_config()
+	{
+		if (isset($_POST['adbutler_key'])) {
+			$adbutler_key = ($_POST['adbutler_key']);
+			update_option('adbutler_key', $adbutler_key);
+		}
+		$adbutler_key = get_option('adbutler_key');
+		?>
+		<label for="adbutler_key">AdButler Key<input type="password" name="adbutler_key" id="adbutler_id_input"
+		                                             value="<?php echo esc_url($adbutler_key); ?>" size="75"/></label>
+	<?php
+	}
+
+	/**
+	 * Display all the AdButler dashboard widgets eventually...for now just config
+	 */
+	public function dashboard_summary()
+	{
+		include_once(plugin_dir_path(__FILE__) . 'adbutler_admin_dashboard.class');
+		$dashboard_widget = new adbutler_admin_dashboard();
+		$dashboard_widget->render();
+
+	}
+
+	/**
+	 * Static function used to display the api key dashboard widget
+	 */
+	public static function render_api_dashboard_widget()
+	{
+		?><div id="adbutler_key"><h2>AdButler Key Configuration</h2>
+		<?php
+		if (isset($_POST['adbutler_key'])) {
+			check_admin_referer('spark_permission_check', 'nonce_check');
+			$key = $_POST['adbutler_key'];
+			if (adbutler_plugin::validate_adbutler_key($key)) {
+				update_option('adbutler_key', $key);
+				echo "<strong>The key was validated and you can now configure ads in the widget</strong>";
+			} else {
+				echo "The key is invalid";
+			}
+
+		}
+		if (isset($_POST['clear'])) {
+			check_admin_referer('spark_permission_check', 'nonce_check');
+			adbutler_plugin::clear_api_key();
+		}
+
+		$adbutler_key = get_option('adbutler_id');
+		echo '<div  id="key-form"><form method="post" target="_self">';
+		wp_nonce_field('spark_permission_check', 'nonce_check');
+		if ($adbutler_key) {
+			adbutler_plugin::clear_key_form();
+		} else {
+			adbutler_plugin::enter_new_key();
+		}
+		echo '</form></div></div>';
+	}
+
+	/**
+	 * Displays the form required to enter a new API key
+	 */
+	public static function enter_new_key()
+	{
+		?>
+		<p>
+			<label for="adbutler_key">AdButler Key</label>
+			<input type="text" name="adbutler_key"
+			       id="adbutler_id_input"
+			       size="75"
+			       title="Please enter the API key located in the settings page of your Adbutler account"/>
+		</p>
+		<button class="button-primary" type=submit>Save</button>
+	<?php
+	}
+
+	/**
+	 * Displays the form used to clear the current API key
+	 */
+	public static function clear_key_form()
+	{
+		?>
+		<p>A key has been configured with this account. Would you like to clear the key?</p>
+		<input type="hidden" name="clear" value="1">
+		<button class="button-primary" type=submit>Clear Key</button>
+	<?php
+	}
+
+	/**
+	 * @param $def Array of all the required parameters to build an ad tag
+	 * @return string Ad tag for public display on site.
+	 */
+	public function build_ad_tag($def)
+	{
+		$name = $def['name'];
+		$type = $def['type'];
+		$output = array();
+		$output[] = "<!-- $name [$type] -->\n";
+		switch ($type) //Javascript, 'Ifrane', 'Image','Popup'
+		{
+			case 'js':
+			{
+				$output[] = $this->buildJavascriptTags($def);
+				break;
+			}
+			case 'iframe':
+			{
+				$output[] = $this->buildIframeTags($def);
+				break;
+			}
+			case 'if_html':
+			{
+				$output[] = $this->buildHTMLIframeTags($def);
+				break;
+			}
+			case 'img':
+			{
+				$output[] = $this->buildImageTags($def);
+				break;
+			}
+			case 'popup':
+			{
+				$output[] = $this->buildPopupTags($def);
+				break;
+			}
+			default:
+				{
+				}
+		}
+		$markup = implode("", $output);
+		return $markup;
+	}
+
+	/**
+	 * @param $def Array of variables required to build Iframe tags
+	 * @return string IFrame ad tag
+	 */
+	function buildIframeTags($def)
+	{
+		$zone_id = $def['zone_id'];
+		$output = array();
+		$size = explode('x', $def['size']);
+		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $zone_id;
+		$output[] = "<p>Start Here</p>";
+		$output[] = "<script type=\"text/javascript\">\n";
+		$output[] = "var rnd = window.rnd || Math.floor(Math.random()*10e6);\n";
+		$output[] = "var pid$zone_id = window.pid$zone_id || rnd;\n";
+		$output[] = "var plc$zone_id = window.plc$zone_id || 0;\n";
+		$output[] = "var abkw = window.abkw || '';\n";
+		$output[] = "var absrc = '";
+		if ($def['secure']) {
+			$output[] = "https://" . $def['ssl_host_name'];
+		} else {
+			$output[] = "http://" . $def['host_name'];
+		}
+		$output[] = "/adserve$params;type=iframe;kw='+abkw+';pid='+pid$zone_id+';place='+(plc$zone_id++)+';rnd='+rnd+'';";
+		$output[] = "\n";
+		$output[] = "document.write('<ifr'+'ame src=\"'+absrc+'";
+		// append custom keywords (future)
+		if (isset($def['extra_data']) && !empty($def['extra_data'])) {
+			$output[] = '?';
+			$output[] = $def['extra_data'];
+		}
+		$output[] = "\" width=\"$size[0]\" height=\"$size[1]\" marginwidth=\"0\" marginheight=\"0\" hspace=\"0\" vspace=\"0\" frameborder=\"0\" scrolling=\"no\"></ifr'+'ame>');";
+		$output[] = "\n";
+		$output[] = "</script>";
+		return implode($output);
+	}
+
+	/**
+	 * @param $def Array of variables required to build HTML/Iframe tags
+	 * @return string HTML/Iframe ad tag
+	 */
+	function buildHTMLIframeTags($def)
+	{
+		$size = explode('x', $def['size']);
+		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $def['zone_id'];
+		$output = array();
+		$output[] = "<iframe src=\"";
+		if ($def['secure']) {
+			$output[] = "https://" . $def['ssl_host_name'];
+		} else {
+			$output[] = "http://" . $def['host_name'];
+		}
+		$output[] = "/adserve$params;type=iframe\"";
+		if (isset($def['extra_data']) && !empty($def['extra_data'])) {
+			$output[] = '?';
+			$output[] = $def['extra_data'];
+		}
+		$output[] = " width=\"$size[0]\" height=\"$size[1]\" marginwidth=\"0\" marginheight=\"0\" hspace=\"0\" vspace=\"0\" frameborder=\"0\" scrolling=\"no\">";
+		$output[] = "\n";
+		$output[] = "</ifr'+'ame>";
+
+		return implode($output);
+	}
+
+	/**
+	 * @param $def Array of variables required to build HTML/Iframe tags
+	 * @return string
+	 */
+	function buildJavascriptTags($def)
+	{
+		$zone_id = $def['zone_id'];
+		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $zone_id;
+
+		$output[] = "<script type=\"text/javascript\">\n";
+		$output[] = "var rnd = window.rnd || Math.floor(Math.random()*10e6);\n";
+		$output[] = "var pid$zone_id = window.pid$zone_id || rnd;\n";
+		$output[] = "var plc$zone_id = window.plc$zone_id || 0;\n";
+		$output[] = "var abkw = window.abkw || '';\n";
+		$output[] = "var absrc = '";
+		if ($def['secure']) {
+			$output[] = "https://" . $def['ssl_host_name'];
+		} else {
+			$output[] = "http://" . $def['host_name'];
+		}
+		$output[] = "/adserve$params;type=js;kw='+abkw+';pid='+pid$zone_id+';place='+(plc$zone_id++)+';rnd='+rnd+'';";
+		$output[] = "";
+		$output[] = "\n";
+		$output[] = "document.write('<scr'+'ipt src=\"'+absrc+'";
+		if (isset($def['extra_data']) && !empty($def['extra_data'])) {
+			$output[] = '?';
+			$output[] = $def['extra_data'];
+		}
+		$output[] = "\" type=\"text/javascript\"></scr'+'ipt>');";
+		$output[] = "\n";
+		$output[] = "</script>";
+
+		return implode($output);
+	}
+
+	/**
+	 * @param $def Array of variables required to build basic image tags
+	 * @return string Image ad tags
+	 */
+	function buildImageTags($def)
+	{
+		$size = explode('x', $def['size']);
+
+		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $def['zone_id'];
+		$output[] = '<a href="';
+		if ($def['secure']) {
+			$output[] = "https://" . $def['ssl_host_name'];
+		} else {
+			$output[] = "http://" . $def['host_name'];
+		}
+		$output[] = "/go2$params\" target=\"_blank\">";
+		$output[] = "<img src=\"";
+		if ($def['secure']) {
+			$output[] = "https://" . $def['ssl_host_name'];
+		} else {
+			$output[] = "http://" . $def['host_name'];
+		}
+		$output[] = "/adserve$params;type=img";
+		if (isset($def['extra_data']) && !empty($def['extra_data'])) {
+			$output[] = '?';
+			$output[] = $def['extra_data'];
+		}
+		$output[] = '" ';
+
+		if ($def['responsive'] == 'FIXED') {
+			$output[] = "width=\"$size[0]\" height=\"$size[1]\"";
+		} elseif ($def['responsive'] == 'AUTO') {
+			$output[] = "style=\"width:100%; max-width: $size[0]px\"";
+		}
+		$output[] = ">";
+		$output[] = "</a>";
+		return implode($output);
+	}
+
+	/**
+	 * @param $def Array of variables required to build Pop up tags
+	 * @return string Pop up tag
+	 */
+	function buildPopupTags($def)
+	{
+		$zone_id = $def['zone_id'];
+		$size = explode('x', $def['size']);
+		$output = array();
+		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $zone_id;
+		$output[] = "<script type=\"text/javascript\">\n";
+		$output[] = "var rnd = window.rnd || Math.floor(Math.random()*10e6);\n";
+		$output[] = "var pid$zone_id = window.pid$zone_id || rnd;\n";
+		$output[] = "var plc$zone_id = window.plc$zone_id || 0;\n";
+		$output[] = "var abkw = window.abkw || '';\n";
+		$output[] = "var absrc = '";
+		if ($def['secure']) {
+			$output[] = "https://" . $def['ssl_host_name'];
+		} else {
+			$output[] = "http://" . $def['host_name'];
+		}
+		$output[] = "/adserve$params;type=iframe;kw='+abkw+';pid='+pid$zone_id+';place='+(plc$zone_id++)+';rnd='+rnd+'';";
+		$output[] = "\n";
+		$output[] = "document.write('<ifr'+'ame src=\"'+absrc+'";
+		// append custom keywords (future)
+		if (isset($def['extra_data']) && !empty($def['extra_data'])) {
+			$output[] = '?';
+			$output[] = $def['extra_data'];
+		}
+		$output[] = " width=\"$size[0]\" height=\"$size[1]\" marginwidth=\"0\" marginheight=\"0\" hspace=\"0\" vspace=\"0\" frameborder=\"0\" scrolling=\"no\">";
+		$output[] = "\n";
+		$output[] = "</script>";
+		return implode($output);
+	}
+
+}
+
+
+
+
+

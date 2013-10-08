@@ -1,0 +1,55 @@
+<?php
+
+if ( !defined( 'ABSPATH' ) ) exit;
+require_once(plugin_dir_path(__FILE__) . '/adbutler_admin.class');
+
+/**
+ * Class adbutler_admin_settings Admin Page for AdButler adminstration
+ */
+class adbutler_admin_settings extends adbutler_admin {	
+	
+	private $key;
+
+	/**
+	 * Page Logic
+	 */
+	public function build_page()
+	{
+		
+	}
+
+	/**
+	 * Page Content, called by base class
+	 */
+	public function render_content()
+	{
+		?>
+<div id="adbutler_help_wrapper">
+	<div id="adbutler_title">
+		<h2>How to setup your plugin</h2>
+	</div>
+	<div id="adbutler_list">
+		<ol>
+			<li><p>Enter the API key displayed in the settings page of your adbutler account into Wordpress and save the key.</p></li>
+			<li><p>Change to the widget configuration page of your Wordpress Admin.</p></li>
+			<li><p>Drag an AdButler widget onto a widget area.</p></li>
+			<li><p>The widget will self populate with the available publishers and zones associated with this account. Pick one.</p></li>
+			<li><p>Select the type of ad tags to use. Javascript is highly recommended in most cases. Save the widget. </p></li>
+			<li><p>A message indicating that the ad has been properly configured should appear.</p></li>
+		</ol>
+		<h3>Note:No changes will impact the public facing side of the widget without first saving it.</h3>
+	</div>
+</div>
+<?php	
+		adbutler_plugin::render_api_dashboard_widget();
+	}
+
+	/**
+	 * Page Sidebar, called by base class
+	 */
+	public function render_sidebar()
+	{
+		
+	}
+
+}

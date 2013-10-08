@@ -1,0 +1,54 @@
+<?php
+
+if (!defined('ABSPATH')) exit;
+/**
+ * Class adbutler_admin Base class for pages in tha admin menu
+ */
+class adbutler_admin
+{
+	public function __construct()
+	{
+
+	}
+
+	/**
+	 * Primary template for all AdButler admin pages.
+	 */
+	public function render()
+	{
+		?>
+		<div id="adbutler-header">
+			<div id="adbutler-logo-wrap"><a>AdButler</a></div>
+		</div>
+		<div id="adbutler-page-wrapper">
+			<div id="adbutler-content-left">
+				<div class="box fixed">
+					<div id="adbutler-content-user">
+						<div class="avatar">
+						</div>
+						<div class="clear">
+						</div>
+					</div>
+					<div id="adbutler-content-menu">
+
+					</div>
+				</div>
+			</div>
+			<div id="content-wrap">
+				<div id="adbutler-content">
+					<?php
+					$this->render_content();
+					?>
+
+				</div>
+				<div id="adbutler-content-sidebar">
+					<?php
+					$this->render_sidebar();
+					?>
+
+				</div>
+			</div>
+		</div>
+	<?php
+	}
+}
