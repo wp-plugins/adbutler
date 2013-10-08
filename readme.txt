@@ -56,8 +56,8 @@ Your Wordpress plugin key is in the settings panel of your AdButler account.
 
 == Screenshots ==
 
-settings-screenshot1.png
-widget-screenshot1.png
+1. settings-screenshot1.png
+1. widget-screenshot1.png
 
 
 == Changelog ==
