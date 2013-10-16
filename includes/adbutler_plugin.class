@@ -53,8 +53,9 @@ class adbutler_plugin
 			'api_url' => ADBUTLER_ADSERVE_URL,
 			'adbutler_key' => get_option('adbutler_key'),
 		);
+		
 		wp_localize_script('adbutler_script', 'adbutlerParams', $params);
-		wp_enqueue_style('adbutler_css', ADBUTLER_URLPATH . 'css/adbutler.css');
+		wp_enqueue_style('adbutler_css', ADBUTLER_URLPATH . 'css/adbutler.css?ver=1');
 	}
 
 	/**
@@ -228,7 +229,7 @@ class adbutler_plugin
 		}
 		$adbutler_key = get_option('adbutler_key');
 		?>
-		<label for="adbutler_key">AdButler Key<input type="password" name="adbutler_key" id="adbutler_id_input"
+		<label for="adbutler_key">AdButler Key<input type="password" name="adbutler_key" id="adbutler-key-input"
 		                                             value="<?php echo esc_url($adbutler_key); ?>" size="75"/></label>
 	<?php
 	}
@@ -249,16 +250,16 @@ class adbutler_plugin
 	 */
 	public static function render_api_dashboard_widget()
 	{
-		?><div id="adbutler_key"><h2>AdButler Key Configuration</h2>
+		?><div id="adbutler_key"><h4> Enter AdButler Key Here</h4>
 		<?php
 		if (isset($_POST['adbutler_key'])) {
 			check_admin_referer('spark_permission_check', 'nonce_check');
 			$key = $_POST['adbutler_key'];
 			if (adbutler_plugin::validate_adbutler_key($key)) {
 				update_option('adbutler_key', $key);
-				echo "<strong>The key was validated and you can now configure ads in the widget</strong>";
+				echo "<strong style=\"color:darkgreen\">The key was validated</strong>";
 			} else {
-				echo "The key is invalid";
+				echo "<strong style=\"color:red\">The key was invalid</strong>";
 			}
 
 		}
@@ -284,11 +285,10 @@ class adbutler_plugin
 	public static function enter_new_key()
 	{
 		?>
-		<p>
-			<label for="adbutler_key">AdButler Key</label>
+		<p class="adbutler-left">			
 			<input type="text" name="adbutler_key"
-			       id="adbutler_id_input"
-			       size="75"
+			       id="adbutler-key-input"
+			       size="50"
 			       title="Please enter the API key located in the settings page of your Adbutler account"/>
 		</p>
 		<button class="button-primary" type=submit>Save</button>
@@ -301,7 +301,7 @@ class adbutler_plugin
 	public static function clear_key_form()
 	{
 		?>
-		<p>A key has been configured with this account. Would you like to clear the key?</p>
+		<p>A key has been configured with this account.</p>
 		<input type="hidden" name="clear" value="1">
 		<button class="button-primary" type=submit>Clear Key</button>
 	<?php

@@ -56,7 +56,6 @@ class adbutler_admin_about extends adbutler_admin
 							<div class="outer" style="">
 								<div class="icon"
 								     style="background: transparent url(<?php echo ADBUTLER_URLPATH . "images/icon-customize.png"?>) top left no-repeat;">
-									<!--<img src="http://www.sparkimg.com/adbutler/201305/@1x/8-bit/" border=0 style="width:44px; height:44px;">-->
 								</div>
 								<div class="inner">
 									<div class="title">
@@ -76,7 +75,6 @@ class adbutler_admin_about extends adbutler_admin
 							<div class="outer" style="">
 								<div class="icon" 
 								     style="background: transparent url(<?php echo ADBUTLER_URLPATH . "images/icon-media.png"?>) top left no-repeat;">
-									<!--<img src="http://www.sparkimg.com/adbutler/201305/@1x/8-bit/" border=0 style="width:44px; height:44px;">-->
 								</div>
 								<div class="inner">
 									<div class="title">
@@ -94,7 +92,6 @@ class adbutler_admin_about extends adbutler_admin
 							<div class="outer" style="">
 								<div class="icon"
 								     style="background: transparent url(<?php echo ADBUTLER_URLPATH . "images/icon-targeting.png"?>) top left no-repeat;">
-									<!--<img src="http://www.sparkimg.com/adbutler/201305/@1x/8-bit/" border=0 style="width:44px; height:44px;">-->
 								</div>
 								<div class="inner">
 									<div class="title">
@@ -114,7 +111,6 @@ class adbutler_admin_about extends adbutler_admin
 							<div class="outer" style="">
 								<div class="icon"
 								     style="background: transparent url(<?php echo ADBUTLER_URLPATH . "images/icon-reports.png"?>) top left no-repeat;">
-									<!--<img src="http://www.sparkimg.com/adbutler/201305/@1x/8-bit/" border=0 style="width:44px; height:44px;">-->
 								</div>
 								<div class="inner">
 									<div class="title">
@@ -132,7 +128,6 @@ class adbutler_admin_about extends adbutler_admin
 							<div class="outer" style="">
 								<div class="icon"
 								     style="background: transparent url(<?php echo ADBUTLER_URLPATH . "images/icon-scaling.png"?>) top left no-repeat;">
-									<!--<img src="http://www.sparkimg.com/adbutler/201305/@1x/8-bit/" border=0 style="width:44px; height:44px;">-->
 								</div>
 								<div class="inner">
 									<div class="title">
@@ -170,7 +165,7 @@ class adbutler_admin_about extends adbutler_admin
 					<li>Completely customizable interface</li>
 				</ul>
 				<div
-					style="padding:15px 0 0 90px; background: transparent url(<?php echo ADBUTLER_URLPATH . "images/arrow-1.png"?>) 10% top no-repeat;">
+					style="padding:15px 0 0 90px; background: transparent url(<?php echo ADBUTLER_URLPATH . "images/arrow-right.png"?>) 10% top no-repeat;">
 					<div class="button-gradient button-gradient-green with-border with-dark-shadow signup-button"
 					     style="width: 190px; margin-top: 15px; -webkit-user-select: none;" unselectable="on">
 						<div onclick="window.open('http://www.adbutler.com?ref=wpabpl1_0','_blank');" class="inner">TRY IT NOW</div>

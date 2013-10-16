@@ -4,10 +4,15 @@
 
 #adbutler-header {
     border-bottom: 1px solid #D16500;
-    background: #D16500 url('../trunk/images/header_bg_01.png') bottom left repeat-x;;
+    background: #D16500 url('../images/header_bg_01.png') bottom left repeat-x;;
     position: relative;
     top: 0;
     height: 45px;
+}
+
+.adbutler-list{
+    width: 300px;
+    text-align: justify;
 }
 
 .adbutler-dashboard-widget {
@@ -16,7 +21,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
-.adbutler_optional{
+.adbutler-optional{
     display:none;
 }
 
@@ -44,6 +49,11 @@
     background-color: #F6F6F6;
 }
 
+.adbutler-left{
+    text-align: left;
+}
+
+
 #adbutler-logo-wrap {
     float: left;
     width: 180px;
@@ -64,10 +74,54 @@
     position: absolute;
     left: 0;
     top: 0;
-    background: transparent url('../trunk/images/header_bg_01_shade.png') bottom left repeat-x;
+    background: transparent url('../images/header_bg_01_shade.png') bottom left repeat-x;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+}
+
+#adbutler-help-wrapper{
+    
+    width:700px;
+}
+.adbutler-title{
+    text-align: center;
+    height:60px;
+}
+.adbutler-title h2{
+    font-size: 32px;
+
+}
+
+#adbutler-setup-flow{
+    padding-left: 25px;
+    padding-right:25px;
+    height:200px;
+}
+
+#adbutler-have-account{
+    float: left;
+    padding:10px;
+    background: transparent url("../images/arrow-left.png")bottom right no-repeat; ;
+    height: 90px;
+    width: 275px;
+    
+}
+#adbutler-key-input{
+    font-size: 11px;   
+    
+}
+#adbutler-no-account{
+    float: right;
+    padding:10px;
+    background: transparent url("../images/arrow-right.png")bottom left no-repeat; ;
+    height: 90px;
+    width:275px;
+
+}
+.buffer {
+    margin-top: 75px;
+    text-align: justify;
 }
 
 .inlay input {
@@ -145,7 +199,9 @@
 
 #features-list {
     padding: 50px 30px;
+   
 }
+
 
 #features-list .introduction {
     text-align: center;
@@ -205,7 +261,7 @@
 #demonstration-screenshot {
     height: 380px;
     margin-bottom: 40px;
-    background: transparent url(../trunk/images/faded-screen.png) top center no-repeat;
+    background: transparent url(../images/faded-screen.png) top center no-repeat;
 }
 
 
@@ -242,7 +298,7 @@
     padding-left: 30px;
     margin: 10px 0;
     font-size: 18px;
-    background: transparent url(../trunk/images/hero-check.png) center left no-repeat;
+    background: transparent url(../images/hero-check.png) center left no-repeat;
 }
 
 #catchy-appeal .subtle-or {
