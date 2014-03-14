@@ -1,7 +1,7 @@
 === AdButler ===
 Contributors: sparklit
 Donate link: 
-Tags: Ad serving, AdButler, advertising,sparklit 
+Tags: Ad serving, AdButler, Ad Server,Ad Management,Ad Rotation
 Requires at least: 3.3
 Tested up to: 3.6
 Stable tag: trunk
