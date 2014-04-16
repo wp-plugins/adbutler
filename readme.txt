@@ -65,7 +65,8 @@ Yes
 
 == Changelog ==
 
-This is the 1.0 beta version.
+1.03 Fixed some connection issues
+1.04 Fixed widgets on customize appearance page
 
 == Upgrade notice ==
 

@@ -4,7 +4,7 @@
 Plugin Name: AdButler
 Plugin URI: http://example.com/wordpress-plugins/adbutler
 Description: AdButler ad management system integration plugin. Simplify deployment of your ad zones with this highly effective manner of deploying your publishing needs
-Version: 1.03
+Version: 1.04
 Author: Sparklit Networks
 Author URI: http://sparklit.com
 License: GPLv2
@@ -21,7 +21,7 @@ define( 'ADBUTLER_PLUGINBASE', plugin_basename( __FILE__ ) );
 define( 'ADBUTLER_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 define( 'ADBUTLER_CACHEDIR', ADBUTLER_PLUGINDIR . 'cache/' );
 define( 'ADBUTLER_CACHEURL', ADBUTLER_URLPATH . 'cache/' );
-define( 'ADBUTLER_ADSERVE_URL','http://admin.adbutler.com.stephen.dev/external_request.spark');
+define( 'ADBUTLER_ADSERVE_URL','http://admin.adbutler.com/external_request.spark');
 
 
 /**
