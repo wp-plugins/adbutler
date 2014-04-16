@@ -67,7 +67,7 @@ var adbutler;
                 data: {
                     key: adbutler.settings.adbutler_key,
                     form: 'jsonp',
-                    action: 'zones',                   
+                    action: 'zones'                   
                 },
                 url: adbutler.settings.api_url + "?callback=?",
                 // url: "http://admin.adbutler.com/external_request.spark?callback=?",
@@ -89,8 +89,7 @@ var adbutler;
                 return;
             }
             // find the widgets
-            var $sortable_widgets = $('.widgets-sortables'),
-                $adbutler_widgets = $sortable_widgets.find('.adbutler_widget');
+                $adbutler_widgets = $('.adbutler_widget');
 
             // for each widget, find the zone selection drop down for population
             $adbutler_widgets.each(function (k, v) {
