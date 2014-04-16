@@ -3,7 +3,7 @@ Contributors: sparklit
 Donate link: 
 Tags: Ad serving, AdButler, Ad Server,Ad Management,Ad Rotation
 Requires at least: 3.3
-Tested up to: 3.6
+Tested up to: 3.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -69,6 +69,6 @@ This is the 1.0 beta version.
 
 == Upgrade notice ==
 
-This is an initial release.
+Better handling of server connection errors
 
 

@@ -47,7 +47,7 @@ class adbutler_plugin
 
 		if (!(('widgets.php' == $hook) || ('index.php' == $hook) || preg_match('/adbutler/', $hook)))
 			return;
-		wp_enqueue_script('adbutler_script', ADBUTLER_URLPATH . "js/adbutler.js", array('jquery-ui-button', 'jquery', 'jquery-ui-spinner'), '1.01', true);
+		wp_enqueue_script('adbutler_script', ADBUTLER_URLPATH . "js/adbutler.js", array('jquery-ui-button', 'jquery', 'jquery-ui-spinner'), '1.02', true);
 		$params = array(
 			'widgetID' => 'adbutler',
 			'api_url' => ADBUTLER_ADSERVE_URL,
@@ -78,7 +78,6 @@ class adbutler_plugin
 	{
 		if (!current_user_can('activate_plugins'))
 			return;
-		error_log("Activated");
 	}
 
 	/**
@@ -89,7 +88,6 @@ class adbutler_plugin
 		if (!current_user_can('activate_plugins'))
 			return;
 		delete_option('widget_adbutler');
-		error_log("Deactivated");
 	}
 
 	/**
@@ -101,7 +99,6 @@ class adbutler_plugin
 			return;
 		delete_option('widget_adbutler');
 		adbutler_plugin::clear_api_key();
-		error_log("uninstalled");
 	}
 
 	/**
@@ -189,9 +186,11 @@ class adbutler_plugin
 			include_once(ABSPATH . WPINC . '/class-http.php');
 		$request = new WP_Http;
 		$result = $request->request(ADBUTLER_ADSERVE_URL . '?action=host&form=json&key=' . $key);
-
+        if ( is_wp_error($result) ) {
+            echo "The following error occurred " . $result->get_error_message();
+            return false;
+        }
 		$account = json_decode($result['body'], true);
-
 		if (!isset($account['success']))
 			return false;
 		$account_data = $account['success'];

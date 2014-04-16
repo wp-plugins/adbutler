@@ -8,10 +8,15 @@ var adbutler;
         zone_list_populated: false,
         init: function (settings) {
             adbutler.settings = $.extend({}, adbutler.default_settings, settings);
+           
+            if(adbutler.settings.adbutler_key =='')
+            {                
+                adbutler.badKey();
+                return;
+            }
+            
             if ($('.adbutler_widget').length > 1) {
                 adbutler.populate_zone_lists();
-                //adbutler.attach_events();
-                // initialize events on all existing items
             }
 
             $('div.widgets-sortables')
@@ -23,6 +28,9 @@ var adbutler;
                     // initialize events on the item
                     adbutler.populate_zone_lists(true);
                 });
+        },
+        badKey:function(){
+            $('.adbutler_widget').replaceWith('<h3>No key configured</h3>')
         },
         handle_zone_select: function (selectEl) {
             var $select = $(selectEl),
@@ -59,7 +67,7 @@ var adbutler;
                 data: {
                     key: adbutler.settings.adbutler_key,
                     form: 'jsonp',
-                    action: 'zones'
+                    action: 'zones',                   
                 },
                 url: adbutler.settings.api_url + "?callback=?",
                 // url: "http://admin.adbutler.com/external_request.spark?callback=?",
@@ -75,6 +83,11 @@ var adbutler;
 
 
         update_all_lists: function () {
+            if(adbutler.settings.adbutler_key =='')
+            {
+                adbutler.badKey();
+                return;
+            }
             // find the widgets
             var $sortable_widgets = $('.widgets-sortables'),
                 $adbutler_widgets = $sortable_widgets.find('.adbutler_widget');
@@ -90,7 +103,6 @@ var adbutler;
                 var o = [];
                 // for each zone possibility, add an option to the drop down at the end of the list
                 $.each(adbutler.zone_list, function (k, v) {
-                    console.log(k,v);
                     if(v.zones !== null){
                     o.push('<optgroup label="' + v.name + '">');
                     $.each(v.zones, function (k, v) {
@@ -109,19 +121,20 @@ var adbutler;
 
         },
         populate_callback_done: function (data, status, xhr) {
-
-            if (data.success) {
+            if (data.success.publisher_zones) {
                 adbutler.zone_list = data.success.publisher_zones;
                 adbutler.update_all_lists();
             }
             else if (data.failure) {
                 console.log(data.failure)
             }
-            else
-                console.log("Big Failure");
+            else{
+                $select = $('.adbutler_zone_select');
+                $select.empty().append('<option value="0">No Zones Available</option>');
+            }
+               
         },
         populate_callback_fail: function (data, status, xhr) {
-            console.log("fail");
         },
 
         populate_widget_type_select: function (widget, zone_id) {
@@ -152,7 +165,6 @@ var adbutler;
                 $select_responsive.show();
             }
             else {
-                console.log('Something went terribly terribly wrong...');
             }
         },
         store_selected_zone_defintion: function (widget, zone_id) {
