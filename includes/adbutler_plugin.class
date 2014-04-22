@@ -110,7 +110,7 @@ class adbutler_plugin
 	{
 		if (!(('widgets.php' == $hook) || ('index.php' == $hook) || preg_match('/adbutler/', $hook) || ('customize.php' == $hook)))
 			return;
-		wp_enqueue_script('adbutler_script', ADBUTLER_URLPATH . "js/adbutler.js", array('jquery-ui-button', 'jquery', 'jquery-ui-spinner'), '1.02', true);
+		wp_enqueue_script('adbutler_script', ADBUTLER_URLPATH . "js/adbutler.js", array('jquery-ui-button', 'jquery', 'jquery-ui-spinner'), '1.05', true);
 		$params = array(
 			'widgetID' => 'adbutler',
 			'api_url' => ADBUTLER_ADSERVE_URL,
