@@ -67,9 +67,10 @@ Yes
 
 1.03 Fixed some connection issues
 1.04 Fixed widgets on customize appearance page
+1.05 Added the ability to associate AdButler keywords with a given post
 
 == Upgrade notice ==
 
-Better handling of server connection errors
+Added the ability to associate AdButler keywords with a given post
 
 

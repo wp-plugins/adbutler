@@ -9,73 +9,92 @@ require_once(plugin_dir_path(__FILE__) . '/adbutler_admin.class');
 class adbutler_admin_settings extends adbutler_admin
 {
 
-	private $key;
+    private $key;
 
-	/**
-	 * Page Logic
-	 */
-	public function build_page()
-	{
+    /**
+     * Page Logic
+     */
+    public function build_page()
+    {
 
-	}
+    }
 
-	/**
-	 * Page Content, called by base class
-	 */
-	public function render_content()
-	{
-		?>
-		<div id="adbutler-help-wrapper">
-			<div class="adbutler-title">
-				<h2>How to setup your plugin</h2><h3>I have an AdButler account?</h3>
-			</div>
-			<div id="adbutler-setup-flow">
-				<div id="adbutler-have-account"><h4 style="text-align:right">YES</h4>
-					<p class="buffer"><strong>If you already have an account</strong>, then we need to acquire your plugin key which can
-						be found within your AdButler account on the settings page. Copy this key and enter it below</p>					
+    /**
+     * Page Content, called by base class
+     */
+    public function render_content()
+    {
+        ?>
+        <div id="adbutler-help-wrapper">
+            <div class="adbutler-title">
+                <h2>How to setup your plugin</h2>
 
-				</div>
-				<div id="adbutler-no-account"><h4 style="text-align:left">NO</h4>
-					<p class="buffer"><strong>AdButler is a hosted ad management system</strong> designed to efficiently and easily get you delivering
-						the right ads when you want, where you want and how you want...</p>
-					<div
-						style="padding:15px 0 0 90px; background: transparent url(<?php echo ADBUTLER_URLPATH . "images/arrow-right.png"?>) 10% top no-repeat;">
-						<div class="button-gradient button-gradient-green with-border with-dark-shadow signup-button"
-						     style="width: 190px; margin-top: 15px; -webkit-user-select: none;" unselectable="on">
-							<div onclick="window.open('http://www.adbutler.com?ref=wpabpl1_0','_blank');" class="inner">TRY IT NOW</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="adbutler-list" id="adbutler-get-key">
-				
-			</div>			
+                <h3>I have an AdButler account?</h3>
+            </div>
+            <div id="adbutler-setup-flow">
+                <div id="adbutler-have-account"><h4 style="text-align:right">YES</h4>
 
-			<div>
-				<?php adbutler_plugin::render_api_dashboard_widget(); ?>
-				<h3>Configuring the Widget</h3>
-				<ol>
-					<li><p>Drag an AdButler widget onto a widget area.</p></li>
-					<li><p>The widget will self populate with the available publishers and zones associated with this
-							account. Pick one.</p></li>
-					<li><p>Select the type of ad tags to use. Javascript is highly recommended in most cases. Save the
-							widget. </p></li>
-					<li><p>A message indicating that the ad has been properly configured should appear.</p></li>
-				</ol>
-				<strong>Note: No changes will impact the public facing side of the widget without first saving it.</strong>
-			</div>
-			<h4>That's it. configure as many widgets as you would like</h4>
-		</div>
-	<?php
+                    <p class="buffer"><strong>If you already have an account</strong>, then we need to acquire your
+                        plugin key which can
+                        be found within your AdButler account on the settings page. Copy this key and enter it below</p>
 
-	}
+                </div>
+                <div id="adbutler-no-account"><h4 style="text-align:left">NO</h4>
 
-	/**
-	 * Page Sidebar, called by base class
-	 */
-	public function render_sidebar()
-	{
+                    <p class="buffer"><strong>AdButler is a hosted ad management system</strong> designed to efficiently
+                        and easily get you delivering
+                        the right ads when you want, where you want and how you want...</p>
 
-	}
+                    <div
+                        style="padding:15px 0 0 90px; background: transparent url(<?php echo ADBUTLER_URLPATH . "images/arrow-right.png" ?>) 10% top no-repeat;">
+                        <div class="button-gradient button-gradient-green with-border with-dark-shadow signup-button"
+                             style="width: 190px; margin-top: 15px; -webkit-user-select: none;" unselectable="on">
+                            <div onclick="window.open('http://www.adbutler.com?ref=wpabpl1_0','_blank');" class="inner">
+                                TRY IT NOW
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="adbutler-list" id="adbutler-get-key">
+
+            </div>
+
+            <div>
+                <?php adbutler_plugin::render_api_dashboard_widget(); ?>
+                <h3>Configuring the Widget</h3>
+                <ol>
+                    <li><p>Drag an AdButler widget onto a widget area.</p></li>
+                    <li><p>The widget will self populate with the available publishers and zones associated with this
+                            account. Pick one.</p></li>
+                    <li><p>Select the type of ad tags to use. Javascript is highly recommended in most cases. Save the
+                            widget. </p></li>
+                    <li><p>A message indicating that the ad has been properly configured should appear.</p></li>
+                </ol>
+                <strong>Note: No changes will impact the public facing side of the widget without first saving
+                    it.</strong>
+            </div>
+            <h4>That's it. configure as many widgets as you would like</h4>
+
+            <div>
+                <h3>Keyword targeting</h3>
+
+                <p>To take advantage of keyword targeting using the plugin you must create an association with a post.
+                    The keyword association input box can be found on the post configuration page near the bottom. For
+                    keyword targeting to fully work
+                    banner or campaign must also be associated with the a keyword within the AdButler System </p>
+            </div>
+        </div>
+    <?php
+
+    }
+
+    /**
+     * Page Sidebar, called by base class
+     */
+    public function render_sidebar()
+    {
+
+    }
 
 }
