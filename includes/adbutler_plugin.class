@@ -46,7 +46,7 @@ class adbutler_plugin
      * 
      */
     public function abkw_post_insertion() {        
-        $keyword = get_post_meta(get_the_ID(), 'meta-text', true);
+        $keyword = get_post_meta(get_the_ID(), 'abkw-text', true);
         if (!empty($keyword)) {
             php?>
             <script>
