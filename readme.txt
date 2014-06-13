@@ -18,7 +18,7 @@ The AdButler plugin will generate ad tags enabling you to configure and manage y
 
 _This plugin requires an AdButler hosted ad management system account_ to utilize the plugin functionality. Using the AdButler system you can create publisher zones, advertisers and associated banners to help monetize your site and effortlessly manage your ad distribution and configuration. 
 
-Currently this plugin only allows the configuration of widgets within Wordpress. Leaderboard formats and other dimensions outside the standard widget size are not currently supported. Ideal banner sizes are square or rectangle, but if your theme supports it the tags will as well.
+This plugin allows you to configure AdButler widgets within Wordpress. It is recommended that you use zones with dimensions that match those of your widget areas.
 
 A short code implementation is currently under development.
 
