@@ -30,7 +30,8 @@ class adbutler_widget extends WP_Widget
 			$instance['zone'] = strip_tags($new_instance['zone']);
 		
 		switch ($new_instance['type'])
-		{		
+		{	
+			case 'asyncjs':
 			case 'js':
 			case 'iframe':
 			case 'if_html':
@@ -104,13 +105,15 @@ class adbutler_widget extends WP_Widget
 			$extra_data = esc_attr($instance['extra_data']);
 		}
 		$responsive_type_list = array(
-			'js' => 'JavaScript (Recommended)',
+			'asyncjs' => 'Asynchronous JavaScript (Recommended)',
+			'js' => 'JavaScript',
 			'iframe' => 'Iframe',
 			'if_html' => 'Iframe (HTML Only)',
 			'img' => 'Image (Basic)',
 		);
 
 		$fixed_type_list = array(
+			'asyncjs' => 'Asynchronous JavaScript (Recommended)',
 			'js' => 'JavaScript (Recommended)',
 			'' => 'Iframe (Disabled)',
 			'img' => 'Image (Basic)',

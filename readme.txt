@@ -3,7 +3,7 @@ Contributors: sparklit
 Donate link: 
 Tags: Ad serving, AdButler, Ad Server,Ad Management,Ad Rotation
 Requires at least: 3.3
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@ The AdButler plugin will generate ad tags enabling you to configure and manage y
 
 _This plugin requires an AdButler hosted ad management system account_ to utilize the plugin functionality. Using the AdButler system you can create publisher zones, advertisers and associated banners to help monetize your site and effortlessly manage your ad distribution and configuration. 
 
-This plugin allows you to configure AdButler widgets within Wordpress. It is recommended that you use zones with dimensions that match those of your widget areas.
+Currently this plugin only allows the configuration of widgets within Wordpress. Leaderboard formats and other dimensions outside the standard widget size are not currently supported. Ideal banner sizes are square or rectangle, but if your theme supports it the tags will as well.
 
 A short code implementation is currently under development.
 
@@ -68,6 +68,7 @@ Yes
 1.03 Fixed some connection issues
 1.04 Fixed widgets on customize appearance page
 1.05 Added the ability to associate AdButler keywords with a given post
+1.06 Added Async Javascript support
 
 == Upgrade notice ==
 

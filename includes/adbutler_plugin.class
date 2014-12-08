@@ -381,6 +381,11 @@ class adbutler_plugin
 		$output[] = "<!-- $name [$type] -->\n";
 		switch ($type) //Javascript, 'Ifrane', 'Image','Popup'
 		{
+			case 'asyncjs':
+			{
+				$output[] = $this->buildAsyncTags($def);
+				break;
+			}
 			case 'js':
 			{
 				$output[] = $this->buildJavascriptTags($def);
@@ -483,6 +488,12 @@ class adbutler_plugin
 	 */
 	function buildJavascriptTags($def)
 	{
+		if ($def['secure']) {
+			$protocol = "https://" . $def['ssl_host_name'];
+		} else {
+			$protocol = "http://" . $def['host_name'];
+		}
+		
 		$zone_id = $def['zone_id'];
 		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $zone_id;
 
@@ -492,11 +503,7 @@ class adbutler_plugin
 		$output[] = "var plc$zone_id = window.plc$zone_id || 0;\n";
 		$output[] = "var abkw = window.abkw || '';\n";
 		$output[] = "var absrc = '";
-		if ($def['secure']) {
-			$output[] = "https://" . $def['ssl_host_name'];
-		} else {
-			$output[] = "http://" . $def['host_name'];
-		}
+		$output[] = $protocol;
 		$output[] = "/adserve$params;type=js;kw='+abkw+';pid='+pid$zone_id+';place='+(plc$zone_id++)+';rnd='+rnd+'';";
 		$output[] = "";
 		$output[] = "\n";
@@ -510,6 +517,42 @@ class adbutler_plugin
 		$output[] = "</script>";
 
 		return implode($output);
+	}
+
+	/**
+	 * @param $def Array of variables required to build Async tags
+	 * @return string
+	 */
+	function buildAsyncTags($def)
+	{
+		$size=explode('x',$def['size']);
+		$zone_id = $def['zone_id'];
+		$place = $def['pla'];
+		$MID =  $def['adbutler_id'];
+		if ($def['secure']) {
+			$protocol = "https://" . $def['ssl_host_name'];
+		} else {
+			$protocol = "http://" . $def['host_name'];
+		}		
+		$output[] = "<script type=\"text/javascript\">\n";
+		$output[] = "if (!window.AdButler){(function(){var s = document.createElement(\"script\");";
+		$output[] = " s.async = true; s.type = \"text/javascript\";s.src = '";
+		$output[] = $protocol ."/app.js';";
+		$output[] ="var n = document.getElementsByTagName(\"script\")[0]; n.parentNode.insertBefore(s, n);";
+		$output[] = "}());}</script>";
+		$output[] = "<script type=\"text/javascript\">var AdButler = AdButler || {};";
+		$output[] = " AdButler.ads = AdButler.ads || [];\n var abkw = window.abkw || '';";
+		$output[] = "var plc$zone_id = window.plc$zone_id || 0;";
+		
+		$output[] = "\ndocument.write('<div id=\"placement_$zone_id"."_'+plc$zone_id+'\"></div>');";
+		$output[] = "\nAdButler.ads.push({handler: function(opt){ ";
+		$output[] = "AdButler.register($MID, $zone_id,[$size[0],$size[1]], 'placement_$zone_id"."_'+ opt.place, opt); }";
+		$output[] = ", opt: { place: plc$zone_id"."++, keywords: abkw , domain: '";
+		$output[] = $def['secure']? $def['ssl_host_name']: $def['host_name']."'";
+		$output[] = ", click:'". $def['click']."'}});</script>";
+
+		return implode($output);
+		
 	}
 
 	/**
