@@ -31,6 +31,9 @@ The second time is during the creation and use of any widgets. At this point the
 
 == Installation ==
 
+A visual walk through for setting it up is available here
+http://www.adbutlerhelp.com/adbutler-wordpress-plugin
+
 **Repository**
 
 1. In your Admin, go to menu Plugins > Add.
