@@ -21,8 +21,8 @@ define( 'ADBUTLER_PLUGINBASE', plugin_basename( __FILE__ ) );
 define( 'ADBUTLER_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 define( 'ADBUTLER_CACHEDIR', ADBUTLER_PLUGINDIR . 'cache/' );
 define( 'ADBUTLER_CACHEURL', ADBUTLER_URLPATH . 'cache/' );
-define( 'ADBUTLER_ADSERVE_URL','http://admin.adbutler.com/external_request.spark');
-//define( 'ADBUTLER_ADSERVE_URL','http://admin.adbutler.com.stephen.dev/external_request.spark');
+//define( 'ADBUTLER_ADSERVE_URL','http://admin.adbutler.com/external_request.spark');
+define( 'ADBUTLER_ADSERVE_URL','http://admin.adbutler.com.stephen.dev/external_request.spark');
 
 
 /**
