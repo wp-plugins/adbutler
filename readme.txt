@@ -3,7 +3,7 @@ Contributors: sparklit
 Donate link: 
 Tags: Ad serving, AdButler, Ad Server,Ad Management,Ad Rotation
 Requires at least: 3.3
-Tested up to: 4.01
+Tested up to: 4.22
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,6 @@ _This plugin requires an AdButler hosted ad management system account_ to utiliz
 
 Currently this plugin only allows the configuration of widgets within Wordpress. Leaderboard formats and other dimensions outside the standard widget size are not currently supported. Ideal banner sizes are square or rectangle, but if your theme supports it the tags will as well.
 
-A short code implementation is currently under development.
 
 **Special Considerations**
 The Adbutler Plugin communicates with the Adbutler servers under two circumstances.
