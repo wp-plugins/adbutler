@@ -67,11 +67,12 @@ Yes
 
 == Changelog ==
 
-1.03 Fixed some connection issues
-1.04 Fixed widgets on customize appearance page
-1.05 Added the ability to associate AdButler keywords with a given post
-1.06 Added Async Javascript support
-1.07 Added Support for shortcodes
+1. 03 Fixed some connection issues
+1. 04 Fixed widgets on customize appearance page
+1. 05 Added the ability to associate AdButler keywords with a given post
+1. 06 Added Async Javascript support
+1. 07 Added Support for shortcodes
+1. 08 Fixed development bug
 
 == Upgrade notice ==
 
