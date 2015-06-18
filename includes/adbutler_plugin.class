@@ -87,8 +87,8 @@ class adbutler_plugin
 			'name' => 'shortcode',
 			'zone_id' => 0,
 			'type' => 'asyncjs',
-			'secure'=> false,
-			'size' => '300*250',
+			'secure'=> is_ssl(),
+			'size' => '300x250',
 			'adbutler_id' => get_option('adbutler_id'),
 			'host_name' => get_option('adbutler_host_name'),
 			'ssl_host_name' => get_option('adbutler_ssl_host_name'),
@@ -353,6 +353,16 @@ class adbutler_plugin
 			adbutler_plugin::clear_api_key();
 		}
 
+		if (isset($_POST['refresh'])) {
+			check_admin_referer('spark_permission_check', 'nonce_check');
+			$adbutler_key = get_option('adbutler_key');
+			if (adbutler_plugin::validate_adbutler_key($adbutler_key)) {
+				echo "<strong style=\"color:darkgreen\">The configuration was refreshed susccesfully</strong>";
+			} else {
+				echo "<strong style=\"color:red\">The configuration refresh failed. Please enter a new key</strong>";
+			}
+		}
+
 		$adbutler_key = get_option('adbutler_id');
 		echo '<div  id="key-form"><form method="post" target="_self">';
 		wp_nonce_field('spark_permission_check', 'nonce_check');
@@ -387,8 +397,8 @@ class adbutler_plugin
 	{
 		?>
 		<p>A key has been configured with this account.</p>
-		<input type="hidden" name="clear" value="1">
-		<button class="button-primary" type=submit>Clear Key</button>
+		<button class="button-primary" name="clear" type=submit>Clear Key</button>
+		<button class="button-primary" name="refresh" type=submit>Refresh</button>
 	<?php
 	}
 
@@ -550,6 +560,9 @@ class adbutler_plugin
 		} else {
 			$protocol = "http://" . $def['host_name'];
 		}
+		if (isset($def['extra_data']) && !empty($def['extra_data'])) {
+			$extra = ",extraData:'".$def['extra_data']."'";
+		}
 		ob_start();
 		?>
 		<!-- deletion test [async] -->
@@ -559,7 +572,7 @@ class adbutler_plugin
 			var abkw = window.abkw || '';
 			var plc<?php echo $zone_id?> = window.plc<?php echo $zone_id?> || 0;
 			document.write('<'+'div id="placement_<?php echo $zone_id?>_'+plc<?php echo $zone_id?>+'"></'+'div>');
-			AdButler.ads.push({handler: function(opt){ AdButler.register(<?php echo $MID?>,<?php echo $zone_id?>, [<?php echo $size[0]?>,<?php echo $size[1]?>], 'placement_<?php echo $zone_id?>_'+opt.place, opt); }, opt: { place: plc<?php echo $zone_id?>++, keywords: abkw, domain: '<?php echo $def['secure']? $def['ssl_host_name']: $def['host_name']?>' }});
+			AdButler.ads.push({handler: function(opt){ AdButler.register(<?php echo $MID?>,<?php echo $zone_id?>, [<?php echo $size[0]?>,<?php echo $size[1]?>], 'placement_<?php echo $zone_id?>_'+opt.place, opt); }, opt: { place: plc<?php echo $zone_id?>++, keywords: abkw <?php echo empty($extra)?'':$extra?>,domain: '<?php echo $def['secure']? $def['ssl_host_name']: $def['host_name']?>' }});
 		</script>
 		<?php
 		return ob_get_clean();

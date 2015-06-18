@@ -73,9 +73,10 @@ Yes
 1. 06 Added Async Javascript support
 1. 07 Added Support for shortcodes
 1. 08 Fixed development bug
+1. 09 Added Secure Tags and Refresh Settings
 
 == Upgrade notice ==
 
-Added the ability to embed shortcodes within in posts
+Added the ability to refresh tag config and Secure tag type
 
 

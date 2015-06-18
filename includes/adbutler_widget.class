@@ -41,7 +41,7 @@ class adbutler_widget extends WP_Widget
 			default:
 				break; 
 		}		
-		$instance['secure'] = isset($new_instance['secure']) ? 1 : 0;		
+		$instance['secure']= $new_instance['secure'];
 		if(preg_match('^\d+x\d+$^',$new_instance['size']))
 			$instance['size'] = $new_instance['size'];		
 		$instance['name'] = sanitize_text_field($new_instance['name']);		
@@ -164,17 +164,15 @@ class adbutler_widget extends WP_Widget
 				</select></p>
 
 			<p class="adbutler-optional" title="Select Secure to enable SSL based Ad serving. Note this should only be chosen for secure sites">
-				<input id="<?php echo $this->get_field_id('secure'); ?>" type="checkbox" value="1" 
-			          name="
-				<?php echo $this->get_field_name('secure'); ?>" <?php checked($secure, 1); ?>>
-				<label 
-				       for="<?php echo $this->get_field_id('secure'); ?>"><?php _e('Secure', 'spark_domain'); ?></label>
+				<input class="checkbox" type="checkbox" <?php checked($instance['secure'], 'on'); ?> id="<?php echo $this->get_field_id('secure'); ?>" name="<?php echo $this->get_field_name('secure'); ?>" />
+				<label for="<?php echo $this->get_field_id('secure'); ?>"><?php _e('Secure', 'spark_domain'); ?></label>
+			</p>
 			</p>
 
 			<p class="adbutler-optional"  title="Enter extra data to be passed along in your request. This requires configuration of your zones through AdButler">
 				<label for="<?php echo $this->get_field_id('extra_data'); ?>"><?php _e('Extra Data', 'spark_domain'); ?></label>
-				<input id="<?php echo $this->get_field_id('extra_data'); ?>" maxlength="60"
-					   name="<?php echo $this->get_field_name('extra_data'); ?>" value="<?php echo $extra_data ?>"
+				<input id="<?php echo $this->get_field_id('extra_data'); ?>" 
+					   name="<?php echo $this->get_field_name('extra_data'); ?>" class="widefat" value="<?php echo $extra_data ?>"
 					/></p>
 			<?php if (isset($instance['adtag'])): ?>
 				<div title="An ad has been properly configured for this widget.">Ad properly configured</div>
