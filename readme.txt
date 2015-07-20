@@ -74,6 +74,8 @@ Yes
 *1.07 Added Support for shortcodes
 *1.08 Fixed development bug
 *1.09 Added Secure Tags and Refresh Settings
+*1.10 Tag cleanup and secure bug fix
+
 
 == Upgrade notice ==
 
