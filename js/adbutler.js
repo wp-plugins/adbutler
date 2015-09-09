@@ -15,7 +15,7 @@ var adbutler;
                 return;
             }
             
-            if ($('.adbutler_widget').length > 1) {
+            if ($('.adbutler_widget').length > 0 ||($("[id^='customize-control-widget_adbutler-']"))) {
                 adbutler.populate_zone_lists();
             }
 
@@ -178,7 +178,7 @@ var adbutler;
             $responsive.val(zone_def.responsive_type);
         }    };
 }(jQuery));
-adbutler.init(adbutlerParams);
+jQuery(document).ready(adbutler.init(adbutlerParams));
 
 
 

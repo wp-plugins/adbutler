@@ -35,6 +35,7 @@ class adbutler_plugin
 		add_action('plugin_action_links', array($this, 'create_action_links'), 10, 2);
 		add_action('widgets_init', array($this, 'register_widget'));
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+		add_action('siteorigin_panel_enqueue_admin_scripts', array($this, 'enqueue_admin_scripts'));
 		add_action('wp_dashboard_setup', array($this, 'dashboard_widget_register'));
         add_action('add_meta_boxes', array($this, 'abkw_targeting') );
         add_action( 'save_post', array($this, 'abkw_targeting_save') );
@@ -132,8 +133,7 @@ class adbutler_plugin
 	 */
 	public function enqueue_admin_scripts($hook)
 	{
-		if (!(('widgets.php' == $hook) || ('index.php' == $hook) || preg_match('/adbutler/', $hook) || ('customize.php' == $hook)))
-			return;
+		
 		wp_enqueue_script('adbutler_script', ADBUTLER_URLPATH . "js/adbutler.js", array('jquery-ui-button', 'jquery', 'jquery-ui-spinner'), '1.05', true);
 		$params = array(
 			'widgetID' => 'adbutler',

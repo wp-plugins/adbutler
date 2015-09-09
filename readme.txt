@@ -3,7 +3,7 @@ Contributors: sparklit
 Donate link: 
 Tags: Ad serving, AdButler, Ad Server,Ad Management,Ad Rotation
 Requires at least: 3.3
-Tested up to: 4.22
+Tested up to: 4.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -67,18 +67,19 @@ Yes
 
 == Changelog ==
 
-*1.03 Fixed some connection issues
-*1.04 Fixed widgets on customize appearance page
-*1.05 Added the ability to associate AdButler keywords with a given post
-*1.06 Added Async Javascript support
-*1.07 Added Support for shortcodes
-*1.08 Fixed development bug
-*1.09 Added Secure Tags and Refresh Settings
-*1.10 Tag cleanup and secure bug fix
+*1.03 Fixed some connection issues.
+*1.04 Fixed widgets on customize appearance page.
+*1.05 Added the ability to associate AdButler keywords with a given post.
+*1.06 Added Async Javascript support.
+*1.07 Added Support for shortcodes.
+*1.08 Fixed development bug.
+*1.09 Added Secure Tags and Refresh Settings.
+*1.10 Tag cleanup and secure bug fix.
+*1.11 Compatability with customizer.  
 
 
 == Upgrade notice ==
 
-Added the ability to refresh tag config and Secure tag type
+Will make the widgets compatible with the customizer interface allowing for live preview of ad inventory
 
 
