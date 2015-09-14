@@ -140,7 +140,7 @@ class adbutler_plugin
 		);
 		
 		wp_localize_script('adbutler_script', 'adbutlerParams', $params);
-		wp_enqueue_style('adbutler_css', ADBUTLER_URLPATH . 'css/adbutler.css?ver=1');
+		wp_enqueue_style('adbutler_css', ADBUTLER_URLPATH . 'css/adbutler.css?ver=1.12');
 	}
 
 	/**
