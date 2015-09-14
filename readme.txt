@@ -76,11 +76,11 @@ Yes
 *1.09 Added Secure Tags and Refresh Settings.
 *1.10 Tag cleanup and secure bug fix.
 *1.11 Compatability with customizer.  
-
+*1.12 Compatability with plugins enhancement
 
 == Upgrade notice ==
 
-Will make the widgets compatible with the customizer interface as well as added a manual refresh button for the zone list to ensure it will work with client side building plugins like pagebuilder
+Added a manual refresh button for the zone list to ensure it will work with client side building plugins like pagebuilder
  
 
 
