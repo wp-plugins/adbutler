@@ -71,7 +71,7 @@ class adbutler_plugin
      * @param $post
      */
     public function add_abkw_topage($post){
-        wp_nonce_field( basename( __FILE__ ), 'abkw_nonce' );
+
         $abkw_stored_meta = get_post_meta( $post->ID );
         ?>
 
@@ -113,10 +113,8 @@ class adbutler_plugin
         // Checks save status
         $is_autosave = wp_is_post_autosave( $post_id );
         $is_revision = wp_is_post_revision( $post_id );
-        $is_valid_nonce = ( isset( $_POST[ 'abkw_nonce' ] ) && wp_verify_nonce( $_POST[ 'abkw_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
-
-        // Exits script depending on save status
-        if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+         // Exits script depending on save status
+        if ( $is_autosave || $is_revision  ) {
             return;
         }
 

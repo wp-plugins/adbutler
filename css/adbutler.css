@@ -9,6 +9,10 @@
     top: 0;
     height: 45px;
 }
+#adbutler_refresh_button{
+    margin-bottom: 3px;
+    
+}
 
 .adbutler-list{
     width: 300px;

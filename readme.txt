@@ -80,6 +80,7 @@ Yes
 
 == Upgrade notice ==
 
-Will make the widgets compatible with the customizer interface allowing for live preview of ad inventory
+Will make the widgets compatible with the customizer interface as well as added a manual refresh button for the zone list to ensure it will work with client side building plugins like pagebuilder
+ 
 
 

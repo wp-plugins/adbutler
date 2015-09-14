@@ -23,7 +23,6 @@ class adbutler_widget extends WP_Widget
 	function update($new_instance, $old_instance)
 	{
 
-		check_admin_referer('spark_permission_check', 'nonce_check');
 		global $abinst;
 		$instance = $old_instance;
 		if(is_numeric($new_instance['zone']))
@@ -41,7 +40,7 @@ class adbutler_widget extends WP_Widget
 			default:
 				break; 
 		}		
-		$instance['secure']= $new_instance['secure'];
+		$instance['secure']= isset($new_instance['secure'])?$new_instance['secure']:false;
 		if(preg_match('^\d+x\d+$^',$new_instance['size']))
 			$instance['size'] = $new_instance['size'];		
 		$instance['name'] = sanitize_text_field($new_instance['name']);		
@@ -119,12 +118,13 @@ class adbutler_widget extends WP_Widget
 			'img' => 'Image (Basic)',
 		);
 
-		wp_nonce_field('spark_permission_check', 'nonce_check');
+	
 		?>
 		<div class="adbutler_widget">
 			<p title="Please select from one of the available zones to configure your advertisement placement " >
 				<label 
 				       for="<?php echo $this->get_field_id('zone'); ?>"><?php _e('Zone', 'spark_domain'); ?></label>
+			<div id="adbutler_refresh_button"><input class="button button-secondary button-small" value="Refresh zones" onclick="adbutler.populate_zone_lists(true)"></div>
 				<select class="adbutler_zone_select widefat" id="<?php echo $this->get_field_id('zone'); ?>"
 						name="<?php echo $this->get_field_name('zone'); ?>"
 						onchange="adbutler.handle_zone_select(this);"

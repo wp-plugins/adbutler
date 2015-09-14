@@ -42,7 +42,7 @@ class adbutler_tag_builder {
 	 * @param $def Array of variables required to build HTML/Iframe tags
 	 * @return string
 	 */
-	function buildJavascriptTags($def)
+	static function buildJavascriptTags($def)
 	{
 		$zone_id = $def['zone_id'];
 		if ($def['secure']) {
@@ -72,7 +72,7 @@ class adbutler_tag_builder {
 	 * @param $def Array of variables required to build HTML/Iframe tags
 	 * @return string HTML/Iframe ad tag
 	 */
-	function buildHTMLIframeTags($def)
+	static function buildHTMLIframeTags($def)
 	{
 		$size = explode('x', $def['size']);
 		$params = "/;ID=" . $def['adbutler_id'] . ";size=" . $def['size'] . ";setID=" . $def['zone_id'];
@@ -99,7 +99,7 @@ class adbutler_tag_builder {
 	 * @param $def Array of variables required to build Iframe tags
 	 * @return string IFrame ad tag
 	 */
-	function buildIframeTags($def)
+	static function buildIframeTags($def)
 	{
 		$zone_id = $def['zone_id'];
 		$output = array();
@@ -135,7 +135,7 @@ class adbutler_tag_builder {
 	 * @param $def Array of variables required to build basic image tags
 	 * @return string Image ad tags
 	 */
-	function buildImageTags($def)
+	static function buildImageTags($def)
 	{
 		$size = explode('x', $def['size']);
 
